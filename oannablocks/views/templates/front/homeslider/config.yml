@@ -1,0 +1,195 @@
+name: Home Slider
+description: 
+enabled_text: false
+required_text: false
+enabled_link: false
+enabled_image: false
+css:
+  -
+    path: views/css/owl.carousel.min.css
+    priority: 200
+    position: head
+    server: local
+  -
+    path: views/templates/front/homeslider/css/homeslider.css
+    priority: 200
+    position: head
+    server: local    
+js:
+  -
+    path: views/templates/front/homeslider/js/init.slider.js
+    priority: 250
+    media: screen
+    server: local
+fields:
+  -
+    col: 1
+    type: switch
+    name: preloader
+    label: Preloader
+    default_value: 0
+    values:
+      -
+        id: active_on
+        value: 1
+        label: Enabled
+      -
+        id: active_off
+        value: 0
+        label: Disabled
+  -
+    col: 1
+    type: switch
+    name: lazyload
+    label: LazyLoad
+    default_value: 0
+    values:
+      - id: active_on
+        value: 1
+        label: Enabled
+      - id: active_off
+        value: 0
+        label: Disabled
+  - 
+    col: 2
+    type: text
+    validator: isUnsignedInt
+    name: items
+    label: Items
+    required: true   
+    default_value: 1
+  -
+    col: 1
+    type: switch
+    name: loop
+    label: Loop
+    default_value: 1
+    values:
+      -
+        id: active_on
+        value: 1
+        label: Enabled
+      -
+        id: active_off
+        value: 0
+        label: Disabled
+  -
+    col: 1
+    type: switch
+    name: nav
+    label: Nav
+    default_value: 1
+    values:
+      -
+        id: active_on
+        value: 1
+        label: Enabled
+      -
+        id: active_off
+        value: 0
+        label: Disabled
+  -
+    col: 1
+    type: switch
+    name: dots
+    label: Dots
+    default_value: 1
+    values:
+      -
+        id: active_on
+        value: 1
+        label: Enabled
+      -
+        id: active_off
+        value: 0
+        label: Disabled
+  -
+    col: 1
+    type: switch
+    name: autoplay
+    label: Autoplay
+    default_value: 0
+    values:
+      -
+        id: active_on
+        value: 1
+        label: Enabled
+      -
+        id: active_off
+        value: 0
+        label: Disabled  
+  - 
+    col: 2
+    type: text
+    validator: isUnsignedInt
+    name: autoplayTimeout
+    label: autoplayTimeout
+    required: true   
+    default_value: 5000     
+  -
+    col: 1
+    type: switch
+    name: responsiveImage
+    label: Responsive Image
+    default_value: 0
+    values:
+      - id: active_on
+        value: 1
+        label: Enabled
+      - id: active_off
+        value: 0
+        label: Disabled  
+  -
+    col: 1
+    type: switch
+    name: desktop
+    label: Show on Desktops
+    default_value: 1
+    values:
+      - id: active_on
+        value: 1
+        label: Enabled
+      - id: active_off
+        value: 0
+        label: Disabled
+  -
+    col: 1
+    type: switch
+    name: mobile
+    label: Show on Mobiles
+    default_value: 1
+    values:
+      -
+        id: active_on
+        value: 1
+        label: Enabled
+      -
+        id: active_off
+        value: 0
+        label: Disabled
+  -
+    col: 1
+    type: switch
+    name: desktopcontent
+    label: Show Content on Desktops
+    default_value: 1
+    values:
+      - id: active_on
+        value: 1
+        label: Enabled
+      - id: active_off
+        value: 0
+        label: Disabled
+  -
+    col: 1
+    type: switch
+    name: mobilecontent
+    label: Show Content on Mobiles
+    default_value: 1
+    values:
+      - id: active_on
+        value: 1
+        label: Enabled
+      - id: active_off
+        value: 0
+        label: Disabled

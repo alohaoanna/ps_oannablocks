@@ -1,0 +1,23 @@
+name: Home slider - item
+description: 
+enabled_text: false
+required_text: false
+enabled_link: true
+enabled_image: true
+enabled_dates: true
+required_dates: false
+fields:
+  -
+    col: 6
+    type: datetime
+    validator: isDateOrNull
+    name: begin_date
+    label: Date de début
+    required: false
+  -
+    col: 6
+    type: datetime
+    validator: isDateOrNull
+    name: end_date
+    label: Date de fin
+    required: false

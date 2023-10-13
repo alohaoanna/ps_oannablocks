@@ -1,0 +1,63 @@
+/**
+* 2007-2017 PrestaShop
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@prestashop.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author    Apply Novation <applynovation@gmail.com>
+*  @copyright 2016-2017 Apply Novation
+*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*/
+
+@font-face {
+  font-family: 'icon_static_block';
+  src:  url('../fonts/icon_static_block.eot?qkz61e');
+  src:  url('../fonts/icon_static_block.eot?qkz61e#iefix') format('embedded-opentype'),
+    url('../../fonts/icon_static_block.ttf?qkz61e') format('truetype'),
+    url('../fonts/icon_static_block.woff?qkz61e') format('woff'),
+    url('../fonts/icon_static_block.svg?qkz61e#icon_static_block') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#subtab-AdminOannaBlocks i:before,
+.icon-AdminOannaBlocks:before {
+  font-family: 'icon_static_block' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;	
+}
+#subtab-AdminOannaBlocks i:before {
+  content: "\e900";
+}
+
+.icon-AdminOannaBlocks:before {
+  content: "\e902";
+}
+
+
+
+
+
+
+

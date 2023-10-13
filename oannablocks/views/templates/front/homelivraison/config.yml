@@ -1,0 +1,8 @@
+name: homelivraison
+description:
+enabled_text: true
+required_text: false
+enabled_link: true
+enabled_image: false
+css:
+  - views/templates/front/homelivraison/css/homelivraison.css

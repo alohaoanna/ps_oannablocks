@@ -1,0 +1,247 @@
+.oannablocks-homeslider {
+  margin-bottom: 25px;
+}
+.oannablocks-homeslider-desc {
+  position: absolute;
+  bottom: 28px;
+  left: 90px;
+}
+.oannablocks-homeslider .owl-prev,
+.oannablocks-homeslider .owl-next {
+  position: absolute;
+  top: calc(50% - 15px);
+  z-index: 2;
+  cursor: pointer;
+}
+.oannablocks-homeslider .owl-prev i,
+.oannablocks-homeslider .owl-next i {
+  font-size: 30px;
+}
+.oannablocks-homeslider .owl-prev {
+  left: 10px;
+}
+.oannablocks-homeslider .owl-next {
+  right: 10px;
+}
+.oannablocks-homeslider .owl-stage-outer.disabled .owl-prev,
+.oannablocks-homeslider .owl-stage-outer.disabled .owl-next {
+  display: none;
+}
+.oannablocks-homeslider .owl-dots {
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+  transform: translate3d(-50%,0,0);
+  -webkit-transform: translate3d(-50%,0,0);
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+}
+.oannablocks-homeslider .owl-dots .owl-dot {
+ display: inline-block;
+ zoom: 1;
+ *display: inline;
+}
+.oannablocks-homeslider .owl-dots .owl-dot span {
+  width: 10px;
+  height: 10px;
+  margin: 5px 7px;
+  background: #D6D6D6;
+  display: block;
+  -webkit-backface-visibility: visible;
+  transition: opacity 200ms ease;
+  border-radius: 30px; }
+.oannablocks-homeslider .owl-dots .owl-dot.active span,
+.oannablocks-homeslider .owl-dots .owl-dot:hover span {
+  background: #869791;
+}
+@media (max-width: 767px){
+  .oannablocks-homeslider-hide-mobile {
+    display: none !important;
+  }
+}
+@media (max-width: 767px){
+  #header .oannablocks-homeslider .owl-prev i,
+  #header .oannablocks-homeslider .owl-next i {
+    font-size: 47px;
+  }
+  .oannablocks-homeslider .owl-next {
+    right: 0;
+  }
+  .oannablocks-homeslider .owl-prev {
+    left: 0;
+  }
+  .oannablocks-homeslider .container{
+    padding: 0 35px;
+  }
+  #header .oannablocks-homeslider.owl-carousel.owl-drag .owl-item img {
+    max-height: 535px;
+  }
+  #header .oannablocks-homeslider .oannablocks-caption {
+    top: 13%;
+  }
+
+}
+@media (max-width: 640px){
+  #header .oannablocks-homeslider .oannablocks-caption {
+      top: 5%;
+  }
+
+  #header .oannablocks-homeslider-desc p {
+    margin-bottom: 25px;
+  }
+  #header .oannablocks-homeslider.owl-carousel.owl-drag .owl-item img {
+    max-height: 480px;
+  }
+  #header .oannablocks-homeslider .owl-dots {
+    bottom: 7px;
+  }
+}
+
+
+.oannablocks-homeslider:not(.owl-carousel) {
+  display: flex!important;
+  min-height: 500px;
+}
+
+.oannablocks-homeslider:not(.owl-carousel) {
+  opacity: 0;
+}
+
+.oannablocks_homeslider-block {
+  position: relative;
+}
+.oannablocks-homeslider-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.75s ease 0.75s;
+}
+
+.loader-image {
+  width: 40px;
+  height: 40px;
+  content: url("../img/loading.svg");
+  
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-name: loader_rotate;
+  animation-timing-function: linear;
+}
+@keyframes loader_rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.oannablocks_homeslider-block.initialized .oannablocks-homeslider-loader {
+  opacity: 0;
+}
+
+.oannablocks-homeslider.owl-carousel.owl-drag .owl-item .item img {
+  -moz-transform-style: flat;
+}
+
+
+#header .oannablocks-homeslider.img-responsive.owl-carousel.owl-drag .owl-item .item img {
+  width: 100%!important;
+}
+@media (max-width: 1700px) {
+  #header .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc h2,
+  #header .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc p {
+    margin-bottom: 30px;
+  }
+  #header .oannablocks-homeslider.img-responsive .oannablocks-caption {
+    top: 90px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc .btn-primary {
+    display: none;
+  }
+  .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+ 
+  .oannablocks-homeslider.img-responsive .owl-dots {
+    bottom: 15px;
+  }
+}
+@media (max-width: 991px) {
+  #header .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc h2 {
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+  #header .oannablocks-homeslider.img-responsive .oannablocks-caption {
+    top: 60px;
+  }
+}
+@media (max-width: 767px) {
+  .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc p {
+    display: none;
+  }
+  .oannablocks-homeslider .owl-prev i, .oannablocks-homeslider .owl-next i {
+    font-size: 40px;
+  }
+  .oannablocks-homeslider .owl-prev, .oannablocks-homeslider .owl-next {
+    top: calc(50% - 20px);
+    padding: 0;
+  }
+  .oannablocks-homeslider-hide-mobile {
+    display: none!important;
+  }
+  #header .oannablocks-homeslider.img-responsive .oannablocks-caption {
+    top: 80px;
+  }
+}
+@media (max-width: 580px) {
+  .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc h2 {
+    font-size: 20px;
+  }
+  .oannablocks-homeslider.img-responsive .owl-dots {
+    bottom: 0;
+  }
+  .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc {
+    padding: 0;
+  }
+  .oannablocks-homeslider.img-responsive .oannablocks-caption .container{
+    height: 100%;
+  }
+  .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  #header .oannablocks-homeslider.img-responsive .oannablocks-caption {
+    top: 0;
+    bottom: 0;
+  }
+  .oannablocks-homeslider.img-responsive .oannablocks-homeslider-desc h5 {
+    margin-bottom: 5px;
+  }
+}
+
+@media (min-width: 768px) {
+  .oannablocks-homeslider-hide-desktop,
+  .oannablocks-homeslider-hide-desktop-content .oannablocks-caption {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .oannablocks-homeslider-hide-mobile-content .oannablocks-caption {
+    display: none;
+  }
+}

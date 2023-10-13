@@ -1,0 +1,169 @@
+/**
+ * 2020 Anvanto
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is not open source! Each license that you purchased is only available for 1 wesite only.
+ * If you want to use this file on more websites (or projects), you need to purchase additional licenses. 
+ * You are not allowed to redistribute, resell, lease, license, sub-license or offer our resources to any third party.
+ *
+ *  @author Anvanto <anvantoco@gmail.com>
+ *  @copyright  2020 Anvanto
+ *  @license    Valid for 1 website (or project) for each purchase of license
+ *  International Registered Trademark & Property of Anvanto
+ */
+
+#products_tree a.pstaggerClosingCross {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    color: #363a41;
+    line-height: 24px;
+}
+
+#products_tree {
+    list-style-type: none;
+}
+
+#products_tree .media-left {
+    width: 60px;
+}
+
+#products_tree .media-middle {
+    width: 300px;
+}
+
+#products_tree .media-left, #products_tree .media-middle {
+    /*display: inline-block;*/
+    float: left;
+    line-height: 50px;
+}
+
+#products_tree .delete { cursor: pointer; }
+#ajax-product-list.staticblock_ajax_product_list { border: 1px solid #ccc; }
+#ajax-product-list.staticblock_ajax_product_list:empty { display: none; }
+#ajax-product-list li { cursor: pointer; display: table; list-style: none; margin: 10px 0; padding: 10px; min-width: 300px }
+#ajax-product-list li:hover { background: #3ed2f0; }
+#ajax-product-list li img { width: 50px; display: inline-block; }
+#ajax-product-list li .label { color: #000; width: auto; display: inline-block; }
+#products_tree li i {
+    font-style: normal;
+    float: right;
+}
+#products_tree li {
+    width: 400px;
+    display: table;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#products_tree img {
+    width: 50px;
+}
+
+#products_tree span {
+    padding: 0 5px 0 0;
+    color: #000;
+}
+
+/*****************************************************/
+.templates-select {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    -js-display: flex;
+    display: flex;
+    -webkit-box-lines: multiple;
+    -moz-box-lines: multiple;
+    box-lines: multiple;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: start;
+    box-pack: start;
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    -ms-justify-content: flex-start;
+    -o-justify-content: flex-start;
+    justify-content: flex-start;
+    -ms-flex-pack: start;
+	
+	margin: 0px -10px 0px -10px;
+}	
+
+.oannablocks-tpl {
+  margin: 0px 5px 10px 5px;
+  border: 1px solid #ddd;
+  padding: 5px;
+  cursor: pointer;
+  background: #fafafa;
+}
+
+.oannablocks-tpl-thumbnail {
+  width: 250px;
+  height: 190px;
+  position: relative;
+  background: #fff;
+  vertical-align: middle;
+  text-align: center;
+  display: table-cell;
+}
+
+.oannablocks-tpl-wrap img,
+.oannablocks-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  vertical-align: middle;
+}
+
+.oannablocks-tpl-name {
+  font-size: 13px; 
+
+}
+.oannablocks-tpl-desc {
+    font-size: 11px;
+    font-weight: normal;
+    color: #666;
+}
+.oannablocks-tpl a:hover {
+ text-decoration: none;
+}
+
+
+.oannablocks-preview {
+  border: 1px solid #ddd;
+  background: #fafafa;
+  padding: 5px;
+  float: left;
+  width: 100%;
+  margin: 0px -10px 0px -10px;
+}
+
+.oannablocks-preview-thumbnail {
+  width: 170px;
+  position: relative;
+  background: #fff;
+  vertical-align: middle;
+  text-align: center;
+  float: left;
+  margin-right: 10px;
+}
+
+.oannablocks-tpl-thumbnail {
+    height: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+

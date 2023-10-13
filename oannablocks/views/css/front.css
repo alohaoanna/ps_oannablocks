@@ -1,0 +1,33 @@
+
+.advant{
+    border: solid 2px #EAEAEA;
+    padding: 38px 30px 22px 30px;
+    margin-bottom: 65px;
+}
+
+.advant a{
+    color: #333;
+    text-decoration: none;
+}
+
+.advant img{
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    margin-left: -64px;
+    background: #fff;
+    padding: 0px 40px;
+}
+
+.advant h4{
+
+    font-size: 18px;
+    margin-bottom: 15px;
+    margin-top: 16px;
+}
+
+.advant p{
+    font-size: 15px;
+
+    line-height: 20px;
+}
