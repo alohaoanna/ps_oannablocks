@@ -691,7 +691,7 @@ class AdminOannaBlocksController extends ModuleAdminController
                         if (isset($field['lang']) && $field['lang']) {
                             $value = [];
 
-                            foreach(Language::getLanguages(0, 0, 0) as $key=>$lang){
+                            foreach(Language::getLanguages() as $key=>$lang){
                                 $value[$lang['id_lang']] = Tools::getValue($field['name'].'_'.($lang['id_lang']));
                             }
                         }
@@ -820,7 +820,7 @@ class AdminOannaBlocksController extends ModuleAdminController
 
             //reformat for langs
             $finalAdditionalData = [];
-            foreach(Language::getLanguages(0, 0, 0) as $key=>$lang){
+            foreach(Language::getLanguages() as $key=>$lang){
                 $temp = [];
                 foreach ($data as $k=>$d)  {
                     if (is_array($d)){

@@ -52,9 +52,9 @@ class OannaBlockData extends ObjectModel
     public function setData($data)
     {
         $this->data = array();
-        foreach(Language::getLanguages(0, 0, 0) as $key=>$lang){
+        foreach(Language::getLanguages() as $key=>$lang){
 
-            $this->data[$lang['id_lang']] = Tools::jsonEncode((array)$data[$lang['id_lang']]);
+            $this->data[$lang['id_lang']] = json_encode((array)$data[$lang['id_lang']]);
         }
         return $this;
     }
