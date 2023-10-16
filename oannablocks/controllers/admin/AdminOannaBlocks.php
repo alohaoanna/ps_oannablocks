@@ -791,7 +791,7 @@ class AdminOannaBlocksController extends ModuleAdminController
             if ($id_parent > 0) {
                 //ITEMS
                 $fileInputs = ['additional_field_item_image1', 'additional_field_item_image2', 'additional_field_item_image3', 'additional_field_item_image4', 'additional_field_item_image5',
-                    'additional_field_item_img1', 'additional_field_item_img2', 'addi 5'];
+                    'additional_field_item_img1', 'additional_field_item_img2', 'additional_field_item_img3', 'additional_field_item_img4', 'additional_field_item_img5'];
             }
             else {
                 //PARENTS
@@ -836,10 +836,10 @@ class AdminOannaBlocksController extends ModuleAdminController
                     }
                 }
                 $finalAdditionalData[$lang['id_lang']] = $temp;
+
+                $formdata->setIdLang($lang['id_lang'])->setIdBlock($object->id)->setData($finalAdditionalData);
+                $formdata->save();
             }
-
-            $formdata->setIdBlock($object->id)->setData($finalAdditionalData)->save();
-
 
             if (Tools::getIsset('submitAdd'.$this->table.'AndBackToParent')) {
                 $this->redirect_after = $this->context->link->getAdminLink($this->controller_name).($id_parent > 0 ? '&'.$this->identifier.'='.$id_parent.'&viewoannablock' : '').'&token='.$this->token;
