@@ -23,9 +23,10 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 
-return Db::getInstance()->execute('
-    DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock`;
-    DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock_data`;
-    DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock_data_lang`;
-    DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock_shop`;
-    DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock_lang`;');
+Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock`;');
+Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock_data`;');
+Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock_data_lang`;');
+Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock_shop`;');
+Db::getInstance()->execute(' DROP TABLE IF EXISTS `'._DB_PREFIX_.'oannablock_lang`;');
+
+return true;
