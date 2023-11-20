@@ -92,7 +92,7 @@ class OannaBlock extends ObjectModel
             'img' => array('type' => self::TYPE_STRING),
 
             // Lang fields
-            'title' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'required' => true, 'size' => 128),
+            'title' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'required' => true, 'size' => 1024),
             'alias' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'size' => 128),
             'content' => array('type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isString', 'size' => 3999999999999),
             'image' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'size' => 3999999999999),

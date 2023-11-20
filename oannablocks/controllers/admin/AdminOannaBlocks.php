@@ -345,7 +345,7 @@ class AdminOannaBlocksController extends ModuleAdminController
                     'lang' => true,
                     'required' => true,
                     'size' => 50,
-                    'maxlength' => 50,
+                    'maxlength' => 1024,
                 ),
                 array(
                     'type' => 'text',

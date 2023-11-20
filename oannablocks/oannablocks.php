@@ -5,7 +5,7 @@
  * NOTICE OF LICENSE
  *
  * This file is not open source! Each license that you purchased is only available for 1 wesite only.
- * If you want to use this file on more websites (or projects), you need to purchase additional licenses. 
+ * If you want to use this file on more websites (or projects), you need to purchase additional licenses.
  * You are not allowed to redistribute, resell, lease, license, sub-license or offer our resources to any third party.
  *
  *  @author Anvanto <anvantoco@gmail.com>
@@ -259,30 +259,22 @@ class Oannablocks extends Module implements WidgetInterface
                 unset($_hooks[$key]);
             }
         }
-        
+
         return $_hooks;
     }
     public function install()
     {
-        $path = _PS_IMG_DIR_.'oannablocks';
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-            mkdir($path.'/images', 0777, true);
-            mkdir($path.'/blocks', 0777, true);
-        }
-
-
         if (Tools::file_exists_no_cache(_PS_MODULE_DIR_.$this->name.'/sql/install.php')) {
             include(_PS_MODULE_DIR_.$this->name.'/sql/install.php');
         } else {
             return false;
         }
-        
+
         $install = parent::install();
 
         $this->_theme_path = __PS_BASE_URI__;
         $this->context->smarty->assign('theme_path', $this->_theme_path);
-        
+
         $languages = Language::getLanguages();
 
         $new_tab = new Tab();
@@ -295,11 +287,11 @@ class Oannablocks extends Module implements WidgetInterface
             $new_tab->name[$language['id_lang']] = 'OANNA Blocs';
         }
         $new_tab->add();
-        
+
         foreach (self::getHooks() as $hook) {
             $this->registerHook($hook['name']);
         }
-        
+
         foreach (self::$custom_hooks as $_hook) {
             $this->registerHook($_hook);
         }
@@ -353,7 +345,7 @@ class Oannablocks extends Module implements WidgetInterface
             $tab = new Tab($idTab);
             $deletion_tab = $tab->delete();
         }
-        
+
         foreach (self::getHooks() as $hook) {
             $this->unregisterHook($hook['name']);
         }
@@ -387,7 +379,7 @@ class Oannablocks extends Module implements WidgetInterface
          * PS 1.7.0 - What is the "\PrestaShopBundle\Service\Hook\HookFinder::find" method?
          * It brakes product page when a module tries to use the "displayProductExtraContent" hook.
          * Why should it return Array type instead of String?
-        **/
+         **/
         if ($hookName == 'displayProductExtraContent') {
             return array();
         }
@@ -413,6 +405,7 @@ class Oannablocks extends Module implements WidgetInterface
 
         if ($block) {
             $this->context->smarty->assign('an_staticblock', $block);
+            $this->context->smarty->assign('oa_staticblock', $block);
             return $this->display($this->name, $block->template);
         }
         return '';
@@ -473,7 +466,7 @@ class Oannablocks extends Module implements WidgetInterface
         if ($path === null) {
             return false;
         }
-        
+
         if (version_compare(_PS_VERSION_, '1.7.0.0', '<')) {
             $this->context->controller->addCSS($this->_path.$path);
         } else {
@@ -486,9 +479,8 @@ class Oannablocks extends Module implements WidgetInterface
     }
 
     public function hookDisplayBackOfficeHeader($params = null)
-    {        
+    {
         if (Dispatcher::getInstance()->getController() == 'AdminOannaBlocks') {
-            $this->context->controller->addJquery();
 
             if (!Tools::getIsset('addoannablocks') && !Tools::getIsset('updateoannablocks')) {
                 $this->context->controller->addCSS($this->_path.'views/css/back-table.css');
@@ -496,6 +488,7 @@ class Oannablocks extends Module implements WidgetInterface
                 $this->context->controller->addJS($this->_path.'views/js/Sortable/Sortable.min.js');
                 $this->context->controller->addJS($this->_path.'views/js/sorting.min.js');
                 $this->context->controller->addJS($this->_path.'views/js/back.js');
+                $this->context->controller->addJS($this->_path.'views/js/oannablocks.js');
             }
         }
     }
@@ -508,7 +501,7 @@ class Oannablocks extends Module implements WidgetInterface
             foreach ($block->getConfigJS() as $js) {
                 $this->addBlockJs($basedir, $js);
             }
-                
+
             foreach ($block->getConfigCSS() as $css) {
                 $this->addBlockCSS($basedir, $css);
             }
@@ -519,8 +512,12 @@ class Oannablocks extends Module implements WidgetInterface
         if (version_compare(_PS_VERSION_, '1.7.0.0', '<')) {
             $this->context->controller->addCSS($this->_path.'views/css/front.css');
         } else {
-            $this->context->controller->registerStylesheet('modules-an-staticblock', 'modules/'.$this->name.'/views/css/front.css', array('media' => 'all', 'priority' => 200));
+            $this->context->controller->registerStylesheet('modules-oa-staticblock', 'modules/'.$this->name.'/views/css/front.css', array('media' => 'all', 'priority' => 200));
         }
+    }
+
+    public function hookHeader($params) {
+        return $this->hookDisplayHeader($params);
     }
 
 
@@ -529,6 +526,14 @@ class Oannablocks extends Module implements WidgetInterface
     {
         if ($hookName == null && isset($configuration['hook'])) {
             $hookName = $configuration['hook'];
+        }
+
+        // only for new single with slider
+        // if excludeId attribute enabled, okay, and get id item to exclude
+        if(isset($configuration['excludeId'])) {
+            $this->smarty->assign('excludeId', $configuration['excludeId']);
+        } else {
+            $this->smarty->assign('excludeId', false);
         }
 
         if(isset($configuration['alias'])) {
@@ -542,32 +547,7 @@ class Oannablocks extends Module implements WidgetInterface
         return $block->getContent();
     }
 
-    public function hookModuleRoutes($params)
-    {
-        $routes = array(
-            // Single
-            'module-oannablocks-detail' => array(
-                'controller' => 'detail',
-                'rule' => 'les-collections{/:id}-{:name}',
-                'keywords' => array(
-                    'id' => array(
-                        'regexp' => '[0-9]+',
-                        'param' => 'id',
-                    ),
-                    'name' => array(
-                        'regexp' => '[_a-zA-Z0-9-\pL]*',
-                        'param' => 'name',
-                    ),
-                ),
-                'params' => array(
-                    'fc' => 'module',
-                    'module' => 'oannablocks',
-                ),
-            ),
-        );
 
-        return $routes;
-    }
 
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {

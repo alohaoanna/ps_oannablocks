@@ -67,7 +67,7 @@ Db::getInstance()->execute('
         `id_oannablock` int(10) unsigned NOT NULL,
         `id_lang` int(10) unsigned NOT NULL,
         `alias` varchar(255),
-        `title` varchar(255) NOT NULL,
+        `title` varchar(1024) NOT NULL,
         `link` varchar(255) NOT NULL,
         `image` varchar(255) NOT NULL,
         `content` text,
