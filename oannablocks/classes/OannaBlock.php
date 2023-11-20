@@ -87,13 +87,13 @@ class OannaBlock extends ObjectModel
             'date_add' => array('type' => self::TYPE_DATE),
             'date_upd' => array('type' => self::TYPE_DATE),
             'hook_ids' => array('type' => self::TYPE_STRING),
-            'alias' => array('type' => self::TYPE_STRING),
             'template' => array('type' => self::TYPE_STRING),
 
             'img' => array('type' => self::TYPE_STRING),
 
             // Lang fields
             'title' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'required' => true, 'size' => 128),
+            'alias' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'size' => 128),
             'content' => array('type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isString', 'size' => 3999999999999),
             'image' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'size' => 3999999999999),
 
@@ -103,7 +103,7 @@ class OannaBlock extends ObjectModel
             'OannaBlockData' => array('object' => 'OannaBlockData', 'field' => 'id_oannablock', 'foreign_field' => 'id_oannablock')/*,
             'OannaBlockShop' => array('object' => 'OannaBlockShop', 'field' => 'id_oannablock', 'foreign_field' => 'id_oannablock')*/
         )
-);
+    );
 
     public function __construct($id = null, $id_lang = null, $id_shop = null)
     {
@@ -116,7 +116,7 @@ class OannaBlock extends ObjectModel
         if (empty($this->block_identifier)) {
             $this->block_identifier = uniqid();
         }
-    
+
         return parent::add($auto_date, $null_values);
     }
 
@@ -133,9 +133,9 @@ class OannaBlock extends ObjectModel
 
     public static function getViewsDir()
     {
-        $path = _PS_THEME_DIR_.'modules/oannablocks/views/templates/front/';
+        $path = _PS_THEME_DIR_ . 'modules/oannablocks/views/templates/front/';
         if (!is_dir($path)) {
-            $path = _PS_MODULE_DIR_.'oannablocks/views/templates/front/';
+            $path = _PS_MODULE_DIR_ . 'oannablocks/views/templates/front/';
         }
 
         return $path;
@@ -145,7 +145,7 @@ class OannaBlock extends ObjectModel
     {
         return !array_key_exists($field, $this->formdata) ? $default_value : $this->formdata[$field];
     }
-    
+
     public static function getTemplates($child = false, $object = null)
     {
         try {
@@ -167,18 +167,16 @@ class OannaBlock extends ObjectModel
 
 
         if (!is_dir($path)) {
-            $path = _PS_THEME_DIR_.'modules/oannablocks/'.$path;
+            $path = _PS_THEME_DIR_ . 'modules/oannablocks/' . $path;
             if (!is_dir($path)) {
-                $path = _PS_MODULE_DIR_.'oannablocks/'.$path;
+                $path = _PS_MODULE_DIR_ . 'oannablocks/' . $path;
             }
         }
 
 
-
         $config = $child === false ?
-            array_merge($config, (array)OannaSpyc::YAMLLoad(Tools::file_get_contents($path.'/config.yml'))) :
-            array_merge($config, (array)OannaSpyc::YAMLLoad(Tools::file_get_contents($path.'/'.$basename.'.yml')));
-
+            array_merge($config, (array)OannaSpyc::YAMLLoad(Tools::file_get_contents($path . '/config.yml'))) :
+            array_merge($config, (array)OannaSpyc::YAMLLoad(Tools::file_get_contents($path . '/' . $basename . '.yml')));
 
 
         if ($load_form === true) {
@@ -191,7 +189,7 @@ class OannaBlock extends ObjectModel
                     $basename = $file->getBasename('.tpl');
 
                     $field['ignore'] = isset($field['ignore']) ? (bool)$field['ignore'] : false;
-                    $field['name'] = 'additional_field_'.$basename.'_'.$field['name'];
+                    $field['name'] = 'additional_field_' . $basename . '_' . $field['name'];
 
                     if (isset($field['default_value'])) {
                         $field['default_value'] = str_replace('#tpl#', $basename, $field['default_value']);
@@ -203,11 +201,11 @@ class OannaBlock extends ObjectModel
         }
 
         return array(
-            'file' => 'views/templates/front/'.basename($file->getPath()).'/'.$file->getBasename(),
-            'name' =>  isset($config['name']) ? $config['name'] : $file->getBasename('.tpl'),
+            'file' => 'views/templates/front/' . basename($file->getPath()) . '/' . $file->getBasename(),
+            'name' => isset($config['name']) ? $config['name'] : $file->getBasename('.tpl'),
             'basename' => $basename,
             'config' => $config,
-            'preview' => Tools::file_exists_no_cache($file->getPath().'/preview.png') ? true : false
+            'preview' => Tools::file_exists_no_cache($file->getPath() . '/preview.png') ? true : false
         );
     }
 
@@ -230,7 +228,7 @@ class OannaBlock extends ObjectModel
 
     public static function getTemplatesLow($child)
     {
-        $finder = new OannaFinder(new GlobIterator($child === false ? self::getViewsDir().'/*/*.tpl' : self::getViewsDir().'/'.basename($child, '.tpl').'/*.tpl', FilesystemIterator::CURRENT_AS_FILEINFO|FilesystemIterator::SKIP_DOTS));
+        $finder = new OannaFinder(new GlobIterator($child === false ? self::getViewsDir() . '/*/*.tpl' : self::getViewsDir() . '/' . basename($child, '.tpl') . '/*.tpl', FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS));
         return $finder->setChild($child);
     }
 
@@ -250,11 +248,11 @@ class OannaBlock extends ObjectModel
 
         if (is_array($formdata)) {
             $basename = basename($this->template, '.tpl');
-            $prefix = 'additional_field_'.$basename;
-            
-            if (isset($formdata[$prefix.'_type']) && in_array($formdata[$prefix.'_type'], array('category', 'ids'))) {
-                $formdata[$prefix.'_type'] = 'new';
-                $formdata[$prefix.'_value'] = '';
+            $prefix = 'additional_field_' . $basename;
+
+            if (isset($formdata[$prefix . '_type']) && in_array($formdata[$prefix . '_type'], array('category', 'ids'))) {
+                $formdata[$prefix . '_type'] = 'new';
+                $formdata[$prefix . '_value'] = '';
             }
         }
 
@@ -268,11 +266,11 @@ class OannaBlock extends ObjectModel
             'date_upd' => $this->date_upd,
             'hook_ids' => $this->hook_ids,
             'template' => $this->template,
-            'alias' => $this->alias,
             'img' => $this->img,
 
             // Lang fields
             'title' => is_array($this->title) ? current($this->title) : '',
+            'alias' => is_array($this->alias) ? current($this->alias) : '',
             'content' => is_array($this->content) ? current($this->content) : '',
             'image' => is_array($this->image) ? current($this->image) : '',
 
@@ -292,9 +290,8 @@ class OannaBlock extends ObjectModel
         $this->date_upd = isset($data['date_upd']) ? $data['date_upd'] : $this->date_upd;
         $this->hook_ids = isset($data['hook_ids']) ? $data['hook_ids'] : $this->hook_ids;
         $this->template = isset($data['template']) ? $data['template'] : $this->template;
-        $this->alias = isset($data['alias']) ? $data['alias'] : $this->alias;
         $this->img = isset($data['img']) ? $data['img'] : $this->img;
-        
+
         $languages = array_flip(Language::getLanguages(1, 0, 1));
 
         if (isset($data['title']) && is_string($data['title'])) {
@@ -302,19 +299,24 @@ class OannaBlock extends ObjectModel
                 return $data['title'];
             }, $languages);
         }
-        
+
+        if (isset($data['alias']) && is_string($data['alias'])) {
+            $this->alias = array_map(function () use ($data) {
+                return $data['alias'];
+            }, $languages);
+        }
+
         if (isset($data['content']) && is_string($data['content'])) {
             $this->content = array_map(function () use ($data) {
                 return $data['content'];
             }, $languages);
         }
-        
+
         if (isset($data['image']) && is_string($data['image'])) {
             $this->image = array_map(function () use ($data) {
                 return $data['image'];
             }, $languages);
         }
-
 
 
         if (isset($data['link']) && is_string($data['link'])) {
@@ -357,7 +359,7 @@ class OannaBlock extends ObjectModel
         if ($this->config === null && isset($this->template)) {
             $_part = explode('/', $this->template);
 
-            $config_file = self::getViewsDir().basename($_part[count($_part)-1], '.tpl').'/config.yml';
+            $config_file = self::getViewsDir() . basename($_part[count($_part) - 1], '.tpl') . '/config.yml';
             $this->config = Tools::file_exists_no_cache($config_file) ? (array)OannaSpyc::YAMLLoad(Tools::file_get_contents($config_file)) : array();
         }
 
@@ -404,7 +406,7 @@ class OannaBlock extends ObjectModel
         if ($_block->id) {
             return $_block;
         }
-        
+
         return false;
     }
 
@@ -412,7 +414,7 @@ class OannaBlock extends ObjectModel
     {
         $sql = '
         SELECT `id_oannablock`
-        FROM `' . _DB_PREFIX_ . 'oannablock`
+        FROM `' . _DB_PREFIX_ . 'oannablock_lang`
         WHERE `alias` = "' . pSQL($block_alias) . '";';
         $block_id = (int)Db::getInstance()->getValue($sql);
         $_block = new self((int)$block_id, Context::getContext()->cookie->id_lang);
@@ -448,7 +450,7 @@ class OannaBlock extends ObjectModel
 
         $block_id = (int)Db::getInstance()->getValue($sql);
         $_block = new self((int)$block_id);
-        
+
         if ($_block->id) {
             return $_block;
         } else {
@@ -459,25 +461,25 @@ class OannaBlock extends ObjectModel
     public static function getActive()
     {
         if (Shop::isFeatureActive()) {
-            $r =  Db::getInstance()->executeS('
+            $r = Db::getInstance()->executeS('
             SELECT tb.id_oannablock
             FROM `' . _DB_PREFIX_ . 'oannablock` tb
             LEFT JOIN `' . _DB_PREFIX_ . 'oannablock_shop` ts ON (tb.`id_oannablock` = ts.`id_oannablock`)
-            WHERE  ts.`id_shop` = ' . (int) Context::getContext()->shop->id . ' AND tb.`status` = 1 AND tb.`id_parent` = 0');
+            WHERE  ts.`id_shop` = ' . (int)Context::getContext()->shop->id . ' AND tb.`status` = 1 AND tb.`id_parent` = 0');
         } else {
-            $r =  Db::getInstance()->executeS('
+            $r = Db::getInstance()->executeS('
             SELECT tb.id_oannablock
             FROM `' . _DB_PREFIX_ . 'oannablock` tb
             WHERE  tb.`status` = 1 AND tb.`id_parent` = 0');
         }
 
-        foreach($r as &$result) {
+        foreach ($r as &$result) {
             $result = $result['id_oannablock'];
         }
 
         $hooks = new Collection(__CLASS__, Context::getContext()->language->id);
 
-        if(empty($r)) {
+        if (empty($r)) {
             return array();
         }
         $hooks->where('id_oannablock', 'in', $r);
@@ -543,7 +545,8 @@ class OannaBlock extends ObjectModel
         $path = _PS_IMG_DIR_ . 'oannablocks/images/';
 
         if (!is_dir($path)) {
-            mkdir($path);
+            mkdir(_PS_IMG_DIR_ . 'oannablocks',0777, true);
+            mkdir($path, 0777, true);
         }
 
         return $path;
@@ -552,18 +555,18 @@ class OannaBlock extends ObjectModel
     public function getImage()
     {
         //return path from root folser
-        return self::getRootImagesPath().$this->img.'.jpg';
+        return self::getRootImagesPath() . $this->img . '.jpg';
     }
 
     public function getImagesDirectory()
     {
-        return __PS_BASE_URI__.'img/oannablocks/images/';
+        return __PS_BASE_URI__ . 'img/oannablocks/images/';
     }
 
     public function getImageLink()
     {
         if (file_exists($this->getImage())) {
-            return __PS_BASE_URI__.'img/oannablocks/images/'.$this->img.'.jpg';
+            return __PS_BASE_URI__ . 'img/oannablocks/images/' . $this->img . '.jpg';
         }
 
         return false;
@@ -574,7 +577,8 @@ class OannaBlock extends ObjectModel
         return self::getRootImagesPath();
     }
 
-    public function getBeginDate() {
+    public function getBeginDate()
+    {
         $begin = $this->loadFormdata()->formdata;
         if ($begin && $begin->__get('additional_field_item_begin_date')) {
             return $begin->__get('additional_field_item_begin_date');
@@ -582,7 +586,8 @@ class OannaBlock extends ObjectModel
         return null;
     }
 
-    public function getEndDate() {
+    public function getEndDate()
+    {
         $end = $this->loadFormdata()->formdata;
         if ($end && $end->__get('additional_field_item_end_date')) {
             return $end->__get('additional_field_item_end_date');
@@ -590,18 +595,18 @@ class OannaBlock extends ObjectModel
         return null;
     }
 
-    public function isInDates() {
+    public function isInDates()
+    {
         $begin = $this->getBeginDate() ? new DateTime($this->getBeginDate()) : null;
         $end = $this->getEndDate() ? new DateTime($this->getEndDate()) : null;
         $now = new DateTime();
 
-        if ($begin){
+        if ($begin) {
             if ($end) {
                 if ($now > $begin && $now < $end) {
                     return true;
                 }
-            }
-            else {
+            } else {
                 if ($now > $begin) {
                     return true;
                 }
@@ -625,18 +630,49 @@ class OannaBlock extends ObjectModel
     public function delete()
     {
         $block_identifier = $this->block_identifier;
-        
-        if (parent::delete() !== false) {
-            if (Tools::file_exists_no_cache(_PS_IMG_DIR_.'oannablocks/blocks/'.$block_identifier.'.json')) {
-                @unlink(_PS_IMG_DIR_.'oannablocks/blocks/'.$block_identifier.'.json');
+
+        //delete images current block
+        for ($i=2; $i< 6;$i++) {
+            $temp = $this->getAdditionalData('image'.$i);
+            if (isset($temp) && $temp) {
+                if (Tools::file_exists_no_cache(_PS_IMG_DIR_ . 'oannablocks/images/' . $temp)) {
+                    @unlink(_PS_IMG_DIR_ . 'oannablocks/images/' . $temp);
+                }
+            }
+        }
+
+        $test = parent::delete();
+        if ($test !== false) {
+
+            if (Tools::file_exists_no_cache(_PS_IMG_DIR_ . 'oannablocks/blocks/' . $block_identifier . '.json')) {
+                @unlink(_PS_IMG_DIR_ . 'oannablocks/blocks/' . $block_identifier . '.json');
             }
 
             return !count(array_filter(array_map(function ($block) {
-                return !$block->delete();
-            }, iterator_to_array($this->getChildrenBlocks(true)))))
-            && $this->deleteImage();
-        }
 
+                    //delete images child block
+                    for ($i=2; $i< 6;$i++) {
+                        $temp = $block->getAdditionalData('image'.$i);
+                        if (isset($temp) && $temp) {
+                            if (Tools::file_exists_no_cache(_PS_IMG_DIR_ . 'oannablocks/images/' . $temp)) {
+                                @unlink(_PS_IMG_DIR_ . 'oannablocks/images/' . $temp);
+                            }
+                        }
+
+                        $temp = $block->getAdditionalData('img'.$i);
+                        if (isset($temp) && $temp) {
+                            if (Tools::file_exists_no_cache(_PS_IMG_DIR_ . 'oannablocks/images/' . $temp)) {
+                                @unlink(_PS_IMG_DIR_ . 'oannablocks/images/' . $temp);
+                            }
+                        }
+
+                    }
+                    $block->deleteImage(true);
+
+                    return !$block->delete();
+                }, iterator_to_array($this->getChildrenBlocks(true)))))
+                && $this->deleteImage(true);
+        }
         return false;
     }
 
@@ -651,42 +687,42 @@ class OannaBlock extends ObjectModel
             $field = 1;
         }
 
-        if (empty($field)) {
-            return false;
+
+        if (empty($field) && !$force_delete) {
+            return true;
         }
 
         if (!isset($this->img) && !is_string($field)) {
-            return false;
+            return true;
         }
 
         if (is_string($field)) {
             $imageToDelete = $this->formdata->{$field};
-        }
-        else {
-            $imageToDelete = $this->img.'.'.$this->image_format;
+        } else {
+            $imageToDelete = $this->img . '.' . $this->image_format;
         }
 
         if ($imageToDelete) {
-            if (file_exists($this->image_dir.$imageToDelete)
-                && !unlink($this->image_dir.$imageToDelete)) {
+            if (file_exists($this->image_dir . $imageToDelete)
+                && !unlink($this->image_dir . $imageToDelete)) {
                 return false;
             }
 
-            if (file_exists(_PS_TMP_IMG_DIR_.$this->def['table'].'_'.$imageToDelete)
-                && !unlink(_PS_TMP_IMG_DIR_.$this->def['table'].'_'.$imageToDelete)) {
+            if (file_exists(_PS_TMP_IMG_DIR_ . $this->def['table'] . '_' . $imageToDelete)
+                && !unlink(_PS_TMP_IMG_DIR_ . $this->def['table'] . '_' . $imageToDelete)) {
                 return false;
             }
 
-            if (file_exists(_PS_TMP_IMG_DIR_.$this->def['table'].'_mini_'.$imageToDelete)
-                && !unlink(_PS_TMP_IMG_DIR_.$this->def['table'].'_mini_'.$imageToDelete)) {
+            if (file_exists(_PS_TMP_IMG_DIR_ . $this->def['table'] . '_mini_' . $imageToDelete)
+                && !unlink(_PS_TMP_IMG_DIR_ . $this->def['table'] . '_mini_' . $imageToDelete)) {
                 return false;
             }
 
             $types = ImageType::getImagesTypes();
 
             foreach ($types as $image_type) {
-                if (file_exists($this->image_dir.$this->img.'-'.Tools::stripslashes($image_type['name']).'.'.$this->image_format)
-                    && !unlink($this->image_dir.$this->img.'-'.Tools::stripslashes($image_type['name']).'.'.$this->image_format)) {
+                if (file_exists($this->image_dir . $this->img . '-' . Tools::stripslashes($image_type['name']) . '.' . $this->image_format)
+                    && !unlink($this->image_dir . $this->img . '-' . Tools::stripslashes($image_type['name']) . '.' . $this->image_format)) {
                     return false;
                 }
             }
@@ -697,22 +733,26 @@ class OannaBlock extends ObjectModel
             $oannaBlockData = $this->formdata;
             $oannaBlockData->__set($field, '');
             $oannaBlockData->save();
-        }
-        else {
+        } else {
             $this->img = '';
         }
 
         return $this->save();
     }
 
-    public function getChildrenBlocks($delete = false)
+    public function getChildrenBlocks($delete = false, $rand = false)
     {
         if (!$this->id) {
             return array();
         }
 
-        $childrenBlocks = new Collection(__CLASS__, Context::getContext()->language->id);
-        $childrenBlocksResult = $childrenBlocks->where('id_parent', '=', $this->id)->orderBy('position')->where('status', '=', 1);
+
+        $childrenBlocks = new OannaBlockCollection(__CLASS__, Context::getContext()->language->id);
+        $order = $rand ? 'rand()' : 'position';
+        $childrenBlocksResult = $childrenBlocks->where('id_parent', '=', $this->id)->customOrder($order)->where('status', '=', 1);
+
+
+
         if (Shop::isFeatureActive() && !$delete) {
             foreach ($childrenBlocksResult as $key => $block) {
                 $db = Db::getInstance()->executeS(
@@ -721,7 +761,7 @@ class OannaBlock extends ObjectModel
                                 WHERE `id_oannablock` = "' . (int)$block->id . '"
                                 AND `id_shop` = "' . (int)Context::getContext()->shop->id . '"'
                 );
-                if(!count($db) || !count($db[0])) {
+                if (!count($db) || !count($db[0])) {
                     unset($childrenBlocksResult[$key]);
                 }
             }
@@ -751,30 +791,32 @@ class OannaBlock extends ObjectModel
         }
 
         Context::getContext()->smarty->assign(array(
-            'an_staticblock'=> $this,
-            'an_placeholder' => $imgplaceholder
+            'an_staticblock' => $this,
+            'an_placeholder' => $imgplaceholder,
+            'oa_staticblock' => $this,
+            'oa_placeholder' => $imgplaceholder
         ));
         return Module::getInstanceByName('oannablocks')->display('oannablocks', $this->template);
     }
 
     public function getPrefix()
     {
-        return 'additional_field_'.basename($this->template, '.tpl').'_';
+        return 'additional_field_' . basename($this->template, '.tpl') . '_';
     }
 
     //TODO: refactor all calls
     public function getAdditionalData($key)
     {
-        return $this->formdata->__get($this->getPrefix().$key);
+        return $this->formdata->__get($this->getPrefix() . $key);
     }
 
     public function getProducts()
     {
         $context = Context::getContext();
         $prefix = $this->getPrefix();
-        $page_number = (int) $this->page_number;
-        $nb_products = (int) $this->nb_products;
-        $products_count = (int) $this->getAdditionalData('products_count');
+        $page_number = (int)$this->page_number;
+        $nb_products = (int)$this->nb_products;
+        $products_count = (int)$this->getAdditionalData('products_count');
         $factor = $page_number * $nb_products;
 
 
@@ -783,11 +825,9 @@ class OannaBlock extends ObjectModel
         }
 
 
-
-        $values = explode(',',  $this->getAdditionalData('value'));
+        $values = explode(',', $this->getAdditionalData('value'));
         $values = array_map('trim', $values);
         $values = array_map('intval', $values);
-
 
 
         $method = 'getBy' . $this->getAdditionalData('type');
@@ -828,28 +868,28 @@ class OannaBlock extends ObjectModel
                     pl.`available_later`, pl.`link_rewrite`, pl.`meta_description`, pl.`meta_keywords`, pl.`meta_title`, pl.`name`, image_shop.`id_image` id_image,
                     il.`legend` as legend, m.`name` AS manufacturer_name, cl.`name` AS category_default,
             DATEDIFF(product_shop.`date_add`, DATE_SUB("' . date('Y-m-d') . ' 00:00:00",
-            INTERVAL ' . (int) $nb_days_new_product . ' DAY)) > 0 AS new, product_shop.price AS orderprice
+            INTERVAL ' . (int)$nb_days_new_product . ' DAY)) > 0 AS new, product_shop.price AS orderprice
         FROM `' . _DB_PREFIX_ . 'category_product` cp
         LEFT JOIN `' . _DB_PREFIX_ . 'product` p
             ON p.`id_product` = cp.`id_product`
         ' . Shop::addSqlAssociation('product', 'p') .
             (Combination::isFeatureActive() ? ' LEFT JOIN `' . _DB_PREFIX_ . 'product_attribute_shop` product_attribute_shop
-        ON (p.`id_product` = product_attribute_shop.`id_product` AND product_attribute_shop.`default_on` = 1 AND product_attribute_shop.id_shop=' . (int) $context->shop->id . ')' : '') . '
+        ON (p.`id_product` = product_attribute_shop.`id_product` AND product_attribute_shop.`default_on` = 1 AND product_attribute_shop.id_shop=' . (int)$context->shop->id . ')' : '') . '
         ' . Product::sqlStock('p', 0) . '
         LEFT JOIN `' . _DB_PREFIX_ . 'category_lang` cl
             ON (product_shop.`id_category_default` = cl.`id_category`
-            AND cl.`id_lang` = ' . (int) $id_lang . Shop::addSqlRestrictionOnLang('cl') . ')
+            AND cl.`id_lang` = ' . (int)$id_lang . Shop::addSqlRestrictionOnLang('cl') . ')
         LEFT JOIN `' . _DB_PREFIX_ . 'product_lang` pl
             ON (p.`id_product` = pl.`id_product`
-            AND pl.`id_lang` = ' . (int) $id_lang . Shop::addSqlRestrictionOnLang('pl') . ')
+            AND pl.`id_lang` = ' . (int)$id_lang . Shop::addSqlRestrictionOnLang('pl') . ')
         LEFT JOIN `' . _DB_PREFIX_ . 'image_shop` image_shop
-            ON (image_shop.`id_product` = p.`id_product` AND image_shop.cover=1 AND image_shop.id_shop=' . (int) $context->shop->id . ')
+            ON (image_shop.`id_product` = p.`id_product` AND image_shop.cover=1 AND image_shop.id_shop=' . (int)$context->shop->id . ')
         LEFT JOIN `' . _DB_PREFIX_ . 'image_lang` il
             ON (image_shop.`id_image` = il.`id_image`
-            AND il.`id_lang` = ' . (int) $id_lang . ')
+            AND il.`id_lang` = ' . (int)$id_lang . ')
         LEFT JOIN `' . _DB_PREFIX_ . 'manufacturer` m
             ON m.`id_manufacturer` = p.`id_manufacturer`
-        WHERE product_shop.`id_shop` = ' . (int) $context->shop->id . '
+        WHERE product_shop.`id_shop` = ' . (int)$context->shop->id . '
             AND p.`id_product` IN (' . implode(', ', $ids) . ')'
             . ' AND product_shop.`active` = 1';
 
@@ -872,14 +912,14 @@ class OannaBlock extends ObjectModel
 
         foreach ($category_ids as $id_category) {
 
-            $category = new Category((int) $id_category);
+            $category = new Category((int)$id_category);
             $_products = $category->getProducts($context->language->id, $page_number, $limit);
             if ($_products) {
                 $products = array_merge($products, $_products);
                 $products = array_unique($products, SORT_REGULAR);
             }
 
-            if (count($products) < $limit){
+            if (count($products) < $limit) {
                 $limit = $limit - count($products);
             } else {
                 break;

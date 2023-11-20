@@ -24,16 +24,40 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-class OannablocksBillyModuleFrontController extends ModuleFrontController
+class OannablocksSummaryModuleFrontController extends ModuleFrontController
 {
-
     public function init(){
         parent::init();
-        $link = new Link();
 
-        $_link = $link->getModuleLink('oannablocks', 'detail', array('id' => 1));
-        $l = $_link;
-        var_dump($l);
-        $this->setTemplate('imprevu.tpl');
+        $block = OannaBlock::getBlockByAlias(Tools::getValue('name'));
+        $this->setTemplate(Tools::getValue('template').'.tpl');
+
+
+
+        $this->context->smarty->assign('oannablockId', Tools::getValue('id'));
+        $this->context->smarty->assign('oa_staticblock', $block);
+        $this->context->smarty->assign('an_staticblock', $block);
+    }
+
+    /*
+      * Get bredcrumb for 1.7
+    */
+    public function getBreadcrumbLinks()
+    {
+        $breadcrumb = parent::getBreadcrumbLinks();
+        $breadcrumb['links'][] = [
+            'title' => ucfirst(Tools::getValue('name')),
+        ];
+
+        return $breadcrumb;
+    }
+
+    public function getTemplateVarPage() {
+
+        $page = parent::getTemplateVarPage();
+        $page['body_classes']['page-'.Tools::getValue('name')] = true;
+        $page['title'] = ucfirst(Tools::getValue('name'));
+        $page['page_name'] = 'page-'.Tools::getValue('name');
+        return $page;
     }
 }

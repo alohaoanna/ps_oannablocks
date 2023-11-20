@@ -264,6 +264,14 @@ class Oannablocks extends Module implements WidgetInterface
     }
     public function install()
     {
+        $path = _PS_IMG_DIR_.'oannablocks';
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+            mkdir($path.'/images', 0777, true);
+            mkdir($path.'/blocks', 0777, true);
+        }
+
+
         if (Tools::file_exists_no_cache(_PS_MODULE_DIR_.$this->name.'/sql/install.php')) {
             include(_PS_MODULE_DIR_.$this->name.'/sql/install.php');
         } else {

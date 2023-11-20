@@ -30,8 +30,12 @@ class OannablocksDetailModuleFrontController extends ModuleFrontController
     public function init(){
         parent::init();
 
-        $this->context->smarty->assign('capsuleid', Tools::getValue('id'));
-        $this->setTemplate('detail-capsule.tpl');
+        $block = OannaBlock::getBlockById(Tools::getValue('id'));
+        $this->setTemplate(Tools::getValue('template').'.tpl');
+
+        $this->context->smarty->assign('oannablockId', Tools::getValue('id'));
+        $this->context->smarty->assign('oa_staticblock', $block);
+        $this->context->smarty->assign('an_staticblock', $block);
     }
 
     /*
@@ -41,9 +45,18 @@ class OannablocksDetailModuleFrontController extends ModuleFrontController
     {
         $breadcrumb = parent::getBreadcrumbLinks();
         $breadcrumb['links'][] = [
-            'title' => Tools::getValue('name'),
+            'title' => ucfirst(Tools::getValue('name')),
         ];
 
         return $breadcrumb;
+    }
+
+    public function getTemplateVarPage() {
+
+        $page = parent::getTemplateVarPage();
+        $page['body_classes']['page-'.Tools::getValue('name')] = true;
+        $page['title'] = ucfirst(Tools::getValue('name'));
+        $page['page_name'] = 'page-'.Tools::getValue('name');
+        return $page;
     }
 }

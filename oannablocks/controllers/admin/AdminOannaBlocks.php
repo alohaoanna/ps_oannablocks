@@ -1,17 +1,15 @@
 <?php
 /**
- * 2020 Anvanto
  *
  * NOTICE OF LICENSE
  *
  * This file is not open source! Each license that you purchased is only available for 1 wesite only.
- * If you want to use this file on more websites (or projects), you need to purchase additional licenses. 
+ * If you want to use this file on more websites (or projects), you need to purchase additional licenses.
  * You are not allowed to redistribute, resell, lease, license, sub-license or offer our resources to any third party.
  *
- *  @author Anvanto <anvantoco@gmail.com>
- *  @copyright  2020 Anvanto
- *  @license    Valid for 1 website (or project) for each purchase of license
- *  International Registered Trademark & Property of Anvanto
+ *  @author OANNA <geoffrey@oanna.be>
+ *  @copyright  2020 OANNA
+
  */
 
 require_once _PS_MODULE_DIR_.'oannablocks/classes/OannaBlockCollection.php';
@@ -66,34 +64,34 @@ class AdminOannaBlocksController extends ModuleAdminController
                 'title' => $this->l('ID'),
                 'align' => 'center',
                 'width' => 30,
-				'search'  => false,
+                'search'  => false,
                 'orderby' => false
             ),
 
             'title' => array(
                 'title' => $this->l('Block Title'),
                 'width' => 200,
-				'search'  => false,
+                'search'  => false,
                 'orderby' => false
             ),
             'position' => array(
                 'title' => $this->l('Position'),
                 'width' => 30,
                 // 'position' => true,
-				'search'  => false,
+                'search'  => false,
                 'type' => 'position'
             ),
             'template' => array(
                 'title' => $this->l('Template'),
                 'width' => 30,
-				'search'  => false,
+                'search'  => false,
                 'orderby' => false
             ),
             'image' => array(
                 'title' => $this->l('Image'),
                 'width' => 30,
                 'type' => 'image',
-				'search'  => false,
+                'search'  => false,
                 'orderby' => false
             ),
             'status' => array(
@@ -102,20 +100,20 @@ class AdminOannaBlocksController extends ModuleAdminController
                 'active' => 'update',
                 'align' => 'center',
                 'type' => 'bool',
-				'search'  => false,
+                'search'  => false,
                 'orderby' => false
             )
         );
 
         //on masque la colonne d'alias dans les enfants
-        if (!$this->view_parent_id) {
-            $this->fields_list['alias'] = array(
-                'title' => $this->l('Alias'),
-                'width' => 30,
-                'search' => false,
-                'orderby' => false
-            );
-        }
+//        if (!$this->view_parent_id) {
+        $this->fields_list['alias'] = array(
+            'title' => $this->l('Alias'),
+            'width' => 30,
+            'search' => false,
+            'orderby' => false
+        );
+//        }
 
         if ($this->view_parent_id == 0) {
             $this->fields_list['hook_ids'] = array(
@@ -133,7 +131,7 @@ class AdminOannaBlocksController extends ModuleAdminController
             'width' => 150,
             'type' => 'date',
             'align' => 'right',
-			'search'  => false,
+            'search'  => false,
             'orderby' => false
         );
 
@@ -157,7 +155,7 @@ class AdminOannaBlocksController extends ModuleAdminController
         }
 
 
-            $this->_where .= ' AND a.id_parent = ' . $this->view_parent_id . ' ';
+        $this->_where .= ' AND a.id_parent = ' . $this->view_parent_id . ' ';
 
         if (Shop::isFeatureActive() && Shop::getContext() != Shop::CONTEXT_ALL) {
             $this->_where .= ' AND a.' . $this->identifier . ' IN (
@@ -174,9 +172,14 @@ class AdminOannaBlocksController extends ModuleAdminController
     {
         if ($this->view_parent_id && $this->display == 'view') {
             $obj = $this->loadObject(true);
-            $title = $obj->title[$this->context->language->id];
-            $this->toolbar_title[] = $this->l('View children of ', null, null, false) . $title;
-            $this->addMetaTitle($this->l('View children of ', null, null, false) . $title);
+            if ($obj) {
+                $title = $obj->title[$this->context->language->id];
+                $this->toolbar_title[] = $this->l('View children of ', null, null, false) . $title;
+                $this->addMetaTitle($this->l('View children of ', null, null, false) . $title);
+            }
+            else {
+                parent::initToolbarTitle();
+            }
         } else {
             parent::initToolbarTitle();
         }
@@ -349,7 +352,8 @@ class AdminOannaBlocksController extends ModuleAdminController
                     'label' => $this->l('Alias:'),
                     'name' => 'alias',
                     'id' => 'alias',
-                    'lang' => false,
+                    'lang' => true,
+                    'required' => true,
                     'size' => 50,
                     'maxlength' => 50,
                 ),
@@ -409,14 +413,14 @@ class AdminOannaBlocksController extends ModuleAdminController
                     'lang' => true,
                 ),
                 array(
-                   'type' => 'file',
-                   'label' => $this->l('Image'),
-                   'name' => 'image',
-                   'display_image' => true,
-                   'image' => $image_url,
-                   'size' => $thumb_size,
-                   'format' => version_compare(_PS_VERSION_, '1.7.0.0', '<') ? ImageType::getFormatedName('medium') : ImageType::getFormattedName('medium'),
-                   'delete_url' => self::$currentIndex.'&'.$this->identifier.'='.$obj->id.'&token='.$this->token.'&deleteImage=1',
+                    'type' => 'file',
+                    'label' => $this->l('Image'),
+                    'name' => 'image',
+                    'display_image' => true,
+                    'image' => $image_url,
+                    'size' => $thumb_size,
+                    'format' => version_compare(_PS_VERSION_, '1.7.0.0', '<') ? ImageType::getFormatedName('medium') : ImageType::getFormattedName('medium'),
+                    'delete_url' => self::$currentIndex.'&'.$this->identifier.'='.$obj->id.'&token='.$this->token.'&deleteImage=1',
                 ),
                 array(
                     'type' => empty($templates) || count($templates) == 1 ? 'hidden' : 'select',
@@ -464,9 +468,6 @@ class AdminOannaBlocksController extends ModuleAdminController
             $unset = false;
             //champs désactivés dans les enfants
             if ($input['name'] == 'hook_ids[]' && $obj->id_parent) {
-                $unset = true;
-            }
-            if ($input['name'] == 'alias' && $obj->id_parent) {
                 $unset = true;
             }
 
@@ -578,7 +579,7 @@ class AdminOannaBlocksController extends ModuleAdminController
     public function getList($id_lang, $order_by = null, $order_way = null, $start = 0, $limit = null, $id_lang_shop = false)
     {
         parent::getList($id_lang, $order_by, $order_way, $start, $limit, $id_lang_shop);
-        
+
         foreach ($this->_list as &$list) {
             if (Tools::file_exists_no_cache(OannaBlock::getRootImagesPath().$list['img'].'.jpg')) {
                 $list['image'] = '<img style="max-width: 75px; max-height: 75px" src="../img/oannablocks/images/'.$list['img'].'.jpg?rand='.rand(1, 1000).'" alt="" class="imgm img-thumbnail" />';
@@ -613,10 +614,6 @@ class AdminOannaBlocksController extends ModuleAdminController
                 $list['template'] = ($template = array_filter(OannaBlock::getTemplates($_child), function ($tpl) use ($list) {
                     return $list['template'] == $tpl['file'];
                 })) && count($template) && ($template = array_shift($template)) ? $template['name'] : $this->l('No template');
-
-                //on remove l'alias dans les détails
-                unset($list['alias']);
-
                 $list['noclick'] = true;
             }
 
@@ -691,7 +688,7 @@ class AdminOannaBlocksController extends ModuleAdminController
                         if (isset($field['lang']) && $field['lang']) {
                             $value = [];
 
-                            foreach(Language::getLanguages() as $key=>$lang){
+                            foreach(Language::getLanguages(0, 0, 0) as $key=>$lang){
                                 $value[$lang['id_lang']] = Tools::getValue($field['name'].'_'.($lang['id_lang']));
                             }
                         }
@@ -702,6 +699,12 @@ class AdminOannaBlocksController extends ModuleAdminController
                         //case upload image
                         if ($value && $field['type'] == 'file'){
                             $value = $this->uploadImage(1, $field['name'], null, false, null, null, true);
+                        }
+                        //fix pour les datetime
+                        if ($field['type'] == 'datetime'){
+                            if ($value === "") {
+                                $value = null;
+                            }
                         }
                         if (isset($template_info['config']['fields'][$key]['validator'])) {
                             $validator = OannaBlockDataValidator::create($value, $template_info['config']['fields'][$key]['validator']);
@@ -746,7 +749,6 @@ class AdminOannaBlocksController extends ModuleAdminController
                 }
             }
         }
-
         if ($this->module->new){
             if (isset($selectedCategories) && !empty($selectedCategories)){
                 $data['additional_field_item_value'] = implode(',',$selectedCategories);
@@ -782,8 +784,10 @@ class AdminOannaBlocksController extends ModuleAdminController
 
             foreach ($data as $field_name => &$_data) {
                 if ($_data === null) {
-                    if ($field_name != 'additional_field_item_begin_date' && $field_name != 'additional_field_item_end_date')
-                    $_data = $formdata->{$field_name};
+                    if ($field_name != 'additional_field_item_begin_date' && $field_name != 'additional_field_item_end_date') {
+                        $_data = $formdata->{$field_name};
+                    }
+
                 }
             }
 
@@ -925,6 +929,30 @@ class AdminOannaBlocksController extends ModuleAdminController
         ));
     }
 
+    public function ajaxProcessGenerateAlias()
+    {
+        $param = (string)Tools::getValue('title');
+        $return = array();
+
+        if (isset($param)) {
+
+            if (!empty($param)) {
+                $param =  $this->slugify($param);
+            }
+
+            $return['success'] = true;
+            $return['data'] = $param;
+            $return['message'] = $this->l('Alias generated');
+        }
+        else {
+            $return['success'] = false;
+
+            $return['message'] = $this->l('An error occurred');
+        }
+
+        return $this->setJsonResponse($return);
+    }
+
     protected function setJsonResponse($response)
     {
         header('Content-Type: application/json; charset=utf8');
@@ -937,12 +965,16 @@ class AdminOannaBlocksController extends ModuleAdminController
         $uniqName = uniqid();
         $object = $this->loadObject();
 
-        if (!Validate::isLoadedObject($object)) {
-            return false;
+        //on gère le cas de l'upload des additional fields avant la création de l'objet
+        if (count($this->errors) == 1) {
+            $this->errors = [];
         }
 
         if (isset($_FILES[$name]['tmp_name']) && !empty($_FILES[$name]['tmp_name'])) {
-            $object->deleteImage();
+
+            if ($object) {
+                $object->deleteImage();
+            }
 
             // Check image validity
             $max_size = isset($this->max_image_size) ? $this->max_image_size : 0;
@@ -961,7 +993,6 @@ class AdminOannaBlocksController extends ModuleAdminController
                 return false;
             }
 
-
             // Evaluate the memory required to resize the image: if it's too much, you can't resize it.
             if (!ImageManager::checkImageMemoryLimit($tmp_name)) {
                 $this->errors[] = Tools::displayError('Due to memory limit restrictions, this image cannot be loaded. Please increase your memory_limit value via your server\'s configuration settings. ');
@@ -979,8 +1010,11 @@ class AdminOannaBlocksController extends ModuleAdminController
                         return $uniqName.'.'.$this->imageType;
                     }
 
-                    $object->img = $uniqName;
-                    $object->save();
+                    if ($object){
+                        $object->img = $uniqName;
+                        $object->save();
+                    }
+
                     unlink($tmp_name);
                     return true;
                 }
@@ -1028,6 +1062,33 @@ class AdminOannaBlocksController extends ModuleAdminController
         }
 
         return $path;
+    }
+
+    private function slugify($text, $divider = '-')
+    {
+        // replace non letter or digits by divider
+        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, $divider);
+
+        // remove duplicate divider
+        $text = preg_replace('~-+~', $divider, $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }
 
