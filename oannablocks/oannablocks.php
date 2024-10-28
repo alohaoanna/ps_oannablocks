@@ -296,6 +296,11 @@ class Oannablocks extends Module implements WidgetInterface
             $this->registerHook($_hook);
         }
 
+        //install img directories
+        if (!file_exists(_PS_IMG_DIR_ . 'oannablocks/images')) {
+            mkdir(_PS_IMG_DIR_ . 'oannablocks/images', 0777, true);
+        }
+
         return $install
             && $this->importBlocks();
     }

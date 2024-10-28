@@ -794,8 +794,8 @@ class AdminOannaBlocksController extends ModuleAdminController
 
             if ($id_parent > 0) {
                 //ITEMS
-                $fileInputs = ['additional_field_item_image1', 'additional_field_item_image2', 'additional_field_item_image3', 'additional_field_item_image4', 'additional_field_item_image5',
-                    'additional_field_item_img1', 'additional_field_item_img2', 'additional_field_item_img3', 'additional_field_item_img4', 'additional_field_item_img5'];
+                $fileInputs = ['additional_field_item_image1', 'additional_field_item_image2', 'additional_field_item_image3', 'additional_field_item_image4', 'additional_field_item_image5', 'additional_field_item_image6', 'additional_field_item_image7', 'additional_field_item_image8', 'additional_field_item_image9', 'additional_field_item_image10',
+                    'additional_field_item_img1', 'additional_field_item_img2', 'additional_field_item_img3', 'additional_field_item_img4', 'additional_field_item_img5', 'additional_field_item_img6', 'additional_field_item_img7', 'additional_field_item_img8', 'additional_field_item_img9', 'additional_field_item_img10'];
             }
             else {
                 //PARENTS
@@ -808,11 +808,21 @@ class AdminOannaBlocksController extends ModuleAdminController
                     'additional_field_'.$template_info['name'].'_image3',
                     'additional_field_'.$template_info['name'].'_image4',
                     'additional_field_'.$template_info['name'].'_image5',
+                    'additional_field_'.$template_info['name'].'_image6',
+                    'additional_field_'.$template_info['name'].'_image7',
+                    'additional_field_'.$template_info['name'].'_image8',
+                    'additional_field_'.$template_info['name'].'_image9',
+                    'additional_field_'.$template_info['name'].'_image10',
                     'additional_field_'.$template_info['name'].'_img1',
                     'additional_field_'.$template_info['name'].'_img2',
                     'additional_field_'.$template_info['name'].'_img3',
                     'additional_field_'.$template_info['name'].'_img4',
-                    'additional_field_'.$template_info['name'].'_img5'
+                    'additional_field_'.$template_info['name'].'_img5',
+                    'additional_field_'.$template_info['name'].'_img6',
+                    'additional_field_'.$template_info['name'].'_img7',
+                    'additional_field_'.$template_info['name'].'_img8',
+                    'additional_field_'.$template_info['name'].'_img9',
+                    'additional_field_'.$template_info['name'].'_img10'
                 ];
             }
 
@@ -861,10 +871,10 @@ class AdminOannaBlocksController extends ModuleAdminController
 
         return $object;
     }
-    
+
     protected function deleteLinks($content)
     {
-        
+
         $hrefs = array();
         preg_match_all('/href="[^"]*"/i', $content, $hrefs);
         foreach ($hrefs[0] as $href) {
@@ -878,13 +888,13 @@ class AdminOannaBlocksController extends ModuleAdminController
         foreach ($this->exportObjects() as $_object) {
             $_object['link'] = '#';
             $_object['content'] = $this->deleteLinks($_object['content']);
-            
-            
+
+
             foreach ($_object['children'] as $key => $item) {
                 $_object['children'][$key]['link'] = '#';
                 $_object['children'][$key]['content'] = $this->deleteLinks($_object['children'][$key]['content']);
             }
-            
+
             @file_put_contents($this->module->blocks_dir.$_object['block_identifier'].'.json', json_encode($_object));
         }
     }
