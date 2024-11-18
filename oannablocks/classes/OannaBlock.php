@@ -1,27 +1,27 @@
 <?php
 /**
-* 2007-2017 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author    Apply Novation <applynovation@gmail.com>
-*  @copyright 2016-2017 Apply Novation
-*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*/
+ * 2007-2017 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Apply Novation <applynovation@gmail.com>
+ *  @copyright 2016-2017 Apply Novation
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
 
 class OannaBlock extends ObjectModel
 {
@@ -35,6 +35,8 @@ class OannaBlock extends ObjectModel
     /** @var string Title */
     public $title;
 
+    public $alias;
+
     /** @var string Identifier */
     public $block_identifier;
 
@@ -42,7 +44,7 @@ class OannaBlock extends ObjectModel
     public $status = 1;
 
     public $hook_ids;
-    
+
     public $position;
 
     /** @var string Content */
@@ -61,7 +63,8 @@ class OannaBlock extends ObjectModel
 
     public $template;
 
-    public $alias;
+
+    public $slug;
 
     public $img;
 
@@ -82,6 +85,7 @@ class OannaBlock extends ObjectModel
         'fields' => array(
             'block_identifier' => array('type' => self::TYPE_STRING, 'size' => 50),
             'id_parent' => array('type' => self::TYPE_INT),
+            'alias' => array('type' => self::TYPE_STRING, 'validate' => 'isString', 'size' => 128),
             'status' => array('type' => self::TYPE_INT),
             'position' => array('type' => self::TYPE_INT, 'validate' => 'isInt'),
             'date_add' => array('type' => self::TYPE_DATE),
@@ -93,7 +97,7 @@ class OannaBlock extends ObjectModel
 
             // Lang fields
             'title' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'required' => true, 'size' => 1024),
-            'alias' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'size' => 128),
+            'slug' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'size' => 128),
             'content' => array('type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isString', 'size' => 3999999999999),
             'image' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isString', 'size' => 3999999999999),
 
@@ -271,6 +275,7 @@ class OannaBlock extends ObjectModel
             // Lang fields
             'title' => is_array($this->title) ? current($this->title) : '',
             'alias' => is_array($this->alias) ? current($this->alias) : '',
+            'slug' => is_array($this->slug) ? current($this->slug) : '',
             'content' => is_array($this->content) ? current($this->content) : '',
             'image' => is_array($this->image) ? current($this->image) : '',
 
@@ -303,6 +308,12 @@ class OannaBlock extends ObjectModel
         if (isset($data['alias']) && is_string($data['alias'])) {
             $this->alias = array_map(function () use ($data) {
                 return $data['alias'];
+            }, $languages);
+        }
+
+        if (isset($data['slug']) && is_string($data['slug'])) {
+            $this->slug = array_map(function () use ($data) {
+                return $data['slug'];
             }, $languages);
         }
 
@@ -414,7 +425,7 @@ class OannaBlock extends ObjectModel
     {
         $sql = '
         SELECT `id_oannablock`
-        FROM `' . _DB_PREFIX_ . 'oannablock_lang`
+        FROM `' . _DB_PREFIX_ . 'oannablock`
         WHERE `alias` = "' . pSQL($block_alias) . '";';
         $block_id = (int)Db::getInstance()->getValue($sql);
         $_block = new self((int)$block_id, Context::getContext()->cookie->id_lang);

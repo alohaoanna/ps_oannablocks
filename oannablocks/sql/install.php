@@ -66,7 +66,7 @@ Db::getInstance()->execute('
     CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'oannablock_lang` (
         `id_oannablock` int(10) unsigned NOT NULL,
         `id_lang` int(10) unsigned NOT NULL,
-        `alias` varchar(255),
+        `slug` varchar(255),
         `title` varchar(1024) NOT NULL,
         `link` varchar(255) NOT NULL,
         `image` varchar(255) NOT NULL,

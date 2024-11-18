@@ -27,7 +27,7 @@
 class OannablocksDetailModuleFrontController extends ModuleFrontController
 {
 
-    private $block = null;
+    protected $block = null;
 
     public function init(){
         parent::init();
@@ -47,10 +47,13 @@ class OannablocksDetailModuleFrontController extends ModuleFrontController
     {
         $breadcrumb = parent::getBreadcrumbLinks();
 
-        $breadcrumb['links'][] = [
-            'title' => ucfirst(Tools::getValue('parentBreadcrumb')),
-            'url' => $this->context->link->getPageLink(Tools::getValue('url'), true),
-        ];
+        if (!empty(Tools::getValue('url'))) {
+            $breadcrumb['links'][] = [
+                'title' => ucfirst(Tools::getValue('parentBreadcrumb')),
+                'url' => $this->context->link->getPageLink(Tools::getValue('url'), true),
+            ];
+        }
+
         $breadcrumb['links'][] = [
             'title' => $this->block->title
         ];

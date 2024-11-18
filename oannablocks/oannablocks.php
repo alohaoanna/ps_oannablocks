@@ -67,6 +67,7 @@ class Oannablocks extends Module implements WidgetInterface
         'displayFeaturePostProcess',
         'displayFeatureValueForm',
         'displayFeatureValuePostProcess',
+        'displayHeader',
         'displayInvoice',
         'displayInvoiceLegalFreeText',
         'displayMaintenance',
@@ -124,6 +125,7 @@ class Oannablocks extends Module implements WidgetInterface
         'displayHomeBefore',
         'displayHomeAfter',
         'displayHome',
+        'displayHeader',
     );
 
     public function __construct()
@@ -297,12 +299,16 @@ class Oannablocks extends Module implements WidgetInterface
         }
 
         //install img directories
-        if (!file_exists(_PS_IMG_DIR_ . 'oannablocks/images')) {
-            mkdir(_PS_IMG_DIR_ . 'oannablocks/images', 0777, true);
+        $path = _PS_IMG_DIR_.'oannablocks';
+        if (!file_exists($path)) {
+            mkdir($path.'/images', 0777, true);
+            mkdir($path.'/blocks', 0777, true);
         }
 
+
         return $install
-            && $this->importBlocks();
+            && $this->importBlocks()
+            && $this->enable();
     }
 
     protected function importBlocks()
@@ -551,6 +557,34 @@ class Oannablocks extends Module implements WidgetInterface
 
         return $block->getContent();
     }
+
+
+//    public function hookModuleRoutes($params)
+//    {
+//        $routes = array(
+//            // Single
+//            'module-oannablocks-detail' => array(
+//                'controller' => 'detail',
+//                'rule' => 'les-collections{/:id}-{:name}',
+//                'keywords' => array(
+//                    'id' => array(
+//                        'regexp' => '[0-9]+',
+//                        'param' => 'id',
+//                    ),
+//                    'name' => array(
+//                        'regexp' => '[_a-zA-Z0-9-\pL]*',
+//                        'param' => 'name',
+//                    ),
+//                ),
+//                'params' => array(
+//                    'fc' => 'module',
+//                    'module' => 'oannablocks',
+//                ),
+//            ),
+//        );
+//
+//        return $routes;
+//    }
 
 
 

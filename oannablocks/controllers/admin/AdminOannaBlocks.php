@@ -106,16 +106,14 @@ class AdminOannaBlocksController extends ModuleAdminController
         );
 
         //on masque la colonne d'alias dans les enfants
-//        if (!$this->view_parent_id) {
-        $this->fields_list['alias'] = array(
-            'title' => $this->l('Alias'),
-            'width' => 30,
-            'search' => false,
-            'orderby' => false
-        );
-//        }
-
         if ($this->view_parent_id == 0) {
+
+            $this->fields_list['alias'] = array(
+                'title' => $this->l('Alias'),
+                'width' => 30,
+                'search' => false,
+                'orderby' => false
+            );
             $this->fields_list['hook_ids'] = array(
                 'title' => $this->l('Hooks'),
                 'width' => 150,
@@ -136,6 +134,12 @@ class AdminOannaBlocksController extends ModuleAdminController
         );
 
         if ($this->view_parent_id != 0) {
+            $this->fields_list['slug'] = array(
+                'title' => $this->l('Alias'),
+                'width' => 30,
+                'search' => false,
+                'orderby' => false
+            );
             $this->fields_list['begin_date'] = array(
                 'title' => $this->l('Date de début'),
                 'width' => 150,
@@ -352,8 +356,17 @@ class AdminOannaBlocksController extends ModuleAdminController
                     'label' => $this->l('Alias:'),
                     'name' => 'alias',
                     'id' => 'alias',
-                    'lang' => true,
                     'required' => true,
+                    'size' => 50,
+                    'maxlength' => 50,
+                ),
+
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('Alias:'),
+                    'name' => 'slug',
+                    'id' => 'slug',
+                    'lang' => true,
                     'size' => 50,
                     'maxlength' => 50,
                 ),
@@ -470,20 +483,31 @@ class AdminOannaBlocksController extends ModuleAdminController
             if ($input['name'] == 'hook_ids[]' && $obj->id_parent) {
                 $unset = true;
             }
+            if ($input['name'] == 'alias' && $obj->id_parent) {
+                $unset = true;
+            }
+
 
             //champs désactivés dans les parents
             if ($input['name'] == 'id_parent' && !$obj->id_parent) {
                 $unset = true;
             }
 
+            if ($input['name'] == 'alias' && !$obj->id_parent) {
+                $unset = true;
+            }
+
             if ($unset) {
                 unset($this->fields_form['input'][$key]);
             }
+
+
         }
 
         if (!$obj->id_parent) {
             $this->fields_value['hook_ids[]'] = $this->object->hook_ids;
         }
+
 
         if ($obj->formdata instanceof OannaBlockData) {
             $data = $obj->formdata->getData();
@@ -500,11 +524,12 @@ class AdminOannaBlocksController extends ModuleAdminController
             }
 
             //reparse data from OannaBlockData for langs
+            //TODO debug notice
             foreach ($data as $index => $value) {
                 foreach ($value as $prop => $val) {
 
                     if (in_array($prop, $fields)) {
-                        if (!isset ($this->fields_value[$prop])) {
+                        if (empty($this->fields_value[$prop])) {
                             $this->fields_value[$prop] = [];
                         }
                         $this->fields_value[$prop][$index] = $val;
